@@ -48,15 +48,17 @@ Artinya:
 
 4 fitur sensor pada setiap timestep
 
-📥 Fitur Input
+## 📥 Fitur Input
 
 Fitur yang digunakan pada setiap timestep:
 
-Fitur	Deskripsi
-heart_rate	Denyut jantung
-blood_oxygen_level	Saturasi oksigen (SpO₂)
-step_count	Jumlah langkah
-stress_level	Tingkat stres
+| Fitur                | Deskripsi                          |
+|----------------------|------------------------------------|
+| heart_rate           | Denyut jantung                     |
+| blood_oxygen_level   | Saturasi oksigen (SpO₂)             |
+| step_count           | Jumlah langkah                     |
+| stress_level         | Tingkat stres                      |
+
 
 Semua fitur telah melalui proses:
 
@@ -66,16 +68,18 @@ Encoding
 
 Normalisasi / scaling
 
-🎯 Target Prediksi
+## 🎯 Target Prediksi
 
 Model memprediksi lima indikator kesiapan kesehatan secara bersamaan:
 
-Output	Deskripsi
-sleep_score	Kualitas tidur
-hrv_score	Perkiraan variabilitas denyut jantung (proxy)
-rhr_score	Skor denyut jantung istirahat
-recovery_score	Kondisi pemulihan tubuh
-readiness_score	Skor kesiapan tubuh keseluruhan
+| Output            | Deskripsi                                              |
+|-------------------|--------------------------------------------------------|
+| sleep_score       | Kualitas tidur                                         |
+| hrv_score         | Perkiraan variabilitas denyut jantung (proxy)          |
+| rhr_score         | Skor denyut jantung istirahat                          |
+| recovery_score    | Kondisi pemulihan tubuh                                |
+| readiness_score   | Skor kesiapan tubuh keseluruhan                        |
+
 ⚠️ Catatan HRV
 
 HRV tidak dihitung langsung menggunakan RR-interval, melainkan diperkirakan (proxy) menggunakan:
