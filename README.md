@@ -137,11 +137,13 @@ RMSE (Root Mean Squared Error)
 Evaluasi dilakukan pada data uji yang dipisahkan secara temporal (tanpa shuffle).
 
 🚀 Contoh Penggunaan (Inference)
+```python
 sample = X_test[0].reshape(1, 6, 4)
 predictions = model.predict(sample)
 
 readiness_score = predictions[-1][0][0]
 print("Prediksi Readiness:", readiness_score)
+```
 
 📱 Penerapan di Aplikasi
 
