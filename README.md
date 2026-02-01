@@ -1,6 +1,6 @@
 🧠 Prediksi Readiness Kesehatan Berbasis Time Series Wearable
 
-Transfer Learning LSTM: Fitbit → Smartwatch
+## Transfer Learning LSTM: Fitbit → Smartwatch
 
 📌 Deskripsi Proyek
 
