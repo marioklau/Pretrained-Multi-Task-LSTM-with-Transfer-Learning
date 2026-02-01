@@ -1,0 +1,48 @@
+{
+  "FEATURES": [
+    "heart_rate",
+    "blood_oxygen_level",
+    "step_count",
+    "stress_level",
+    "activity_Active",
+    "activity_Highly Active",
+    "activity_Sedentary"
+  ],
+  "TARGETS": [
+    "sleep_score",
+    "hrv_score",
+    "rhr_score",
+    "recovery_score",
+    "readiness_score"
+  ],
+  "SEQ_LEN": 6,
+  "input_shape": [
+    null,
+    6,
+    4
+  ],
+  "output_shape": [
+    [
+      null,
+      1
+    ],
+    [
+      null,
+      1
+    ],
+    [
+      null,
+      1
+    ],
+    [
+      null,
+      1
+    ],
+    [
+      null,
+      1
+    ]
+  ],
+  "training_date": "2026-02-01 17:54:24",
+  "epochs_trained": 20
+}
