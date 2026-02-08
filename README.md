@@ -1,193 +1,177 @@
-🧠 Prediksi Readiness Kesehatan Berbasis Time Series Wearable
+📘 README — Definisi Range Fitur (Hourly Dataset – Berdasarkan Data Asli)
+📌 Konteks Dataset
 
-## Transfer Learning LSTM: Fitbit → Smartwatch
+Dataset bersifat per jam (hourly)
 
-📌 Deskripsi Proyek
+Jumlah data: 3913 baris
 
-Proyek ini mengembangkan model deep learning berbasis time series untuk memprediksi indikator kesiapan kesehatan (health readiness) menggunakan data sensor dari perangkat wearable (smartwatch).
+Model menggunakan LSTM (SEQ_LEN = 6) → 6 jam terakhir
 
-Model dilatih menggunakan pendekatan transfer learning, dengan:
+Fitur input:
 
-Pretraining pada dataset Fitbit
+FEATURES = ["StepTotal", "Calories", "heart_rate", "stress"]
 
-Fine-tuning pada dataset smartwatch yang bersifat uncleaned
 
-Pendekatan ini bertujuan untuk memanfaatkan pola fisiologis umum dari data Fitbit dan menyesuaikannya dengan karakteristik data smartwatch.
+Range di bawah ini diambil dari statistik dataset asli, bukan perkiraan.
 
-🎯 Tujuan Penelitian
+🚶 StepTotal — Langkah per Jam
 
-Membangun model time series untuk data wearable
+Statistik Dataset
 
-Memprediksi indikator kesiapan tubuh berbasis sensor
+Min: 0
 
-Menerapkan transfer learning lintas perangkat wearable
+Median: 123
 
-Mengatasi keterbatasan data smartwatch yang noisy dan tidak lengkap
+Mean: 384
 
-⏱ Karakteristik Data (Time Series)
+Q3 (75%): 481
 
-Dataset diperlakukan sebagai time series multivariat, di mana:
+Max: 5890
 
-Data disusun berdasarkan urutan waktu
+| Kategori                  | Range (langkah/jam) |
+|---------------------------|--------------------|
+| Tinggi / Aktif            | > 500              |
+| Normal                    | 120 – 500          |
+| Rendah                    | 5 – 120            |
+| **Sangat Rendah (Buruk)** | **< 5**            |
 
-Model menerima input dalam bentuk sliding window
 
-Bentuk input model:
+📉 StepTotal < 5/jam sering terjadi saat:
 
-(batch_size, timesteps, features)
+duduk lama
 
+kelelahan
 
-Contoh:
+jam tidur atau pasif ekstrem
 
-(1, 6, 4)
+🔥 Calories — Kalori Terbakar per Jam
 
+Statistik Dataset
 
-Artinya:
+Min: 50
 
-6 timestep berurutan
+Median: 84
 
-4 fitur sensor pada setiap timestep
+Mean: 106
 
-## 📥 Fitur Input
+Q3: 123
 
-Fitur yang digunakan pada setiap timestep:
+Max: 612
 
-| Fitur                | Deskripsi                          |
-|----------------------|------------------------------------|
-| heart_rate           | Denyut jantung                     |
-| blood_oxygen_level   | Saturasi oksigen (SpO₂)             |
-| step_count           | Jumlah langkah                     |
-| stress_level         | Tingkat stres                      |
+| Kategori                  | Range (kcal/jam) |
+|---------------------------|-----------------|
+| Tinggi                    | > 120           |
+| Normal                    | 80 – 120        |
+| Rendah                    | 64 – 80         |
+| **Sangat Rendah (Buruk)** | **< 64**        |
 
 
-Semua fitur telah melalui proses:
+📉 Kalori < 64/jam menunjukkan aktivitas fisik hampir nol.
 
-Pembersihan data
+❤️ Heart Rate — Denyut Jantung (bpm)
 
-Encoding
+Statistik Dataset
 
-Normalisasi / scaling
+Min: 43
 
-## 🎯 Target Prediksi
+Median: 69
 
-Model memprediksi lima indikator kesiapan kesehatan secara bersamaan:
+Mean: 71
 
-| Output            | Deskripsi                                              |
-|-------------------|--------------------------------------------------------|
-| sleep_score       | Kualitas tidur                                         |
-| hrv_score         | Perkiraan variabilitas denyut jantung (proxy)          |
-| rhr_score         | Skor denyut jantung istirahat                          |
-| recovery_score    | Kondisi pemulihan tubuh                                |
-| readiness_score   | Skor kesiapan tubuh keseluruhan                        |
+Q3: 79
 
-⚠️ Catatan HRV
+Max: 150
 
-HRV tidak dihitung langsung menggunakan RR-interval, melainkan diperkirakan (proxy) menggunakan:
+| Kategori                                 | Range (bpm) |
+|------------------------------------------|-------------|
+| Rendah / Istirahat                       | < 60        |
+| Normal                                   | 60 – 79     |
+| Tinggi                                   | 80 – 90     |
+| **Sangat Tinggi / Tidak Stabil (Buruk)** | **> 90**    |
 
-Variabilitas denyut jantung
 
-Tingkat stres
+⚠️ HR > 90 bpm dalam dataset sering berkorelasi dengan:
 
-Pola aktivitas fisik
+stress tinggi
 
-🏗 Arsitektur Model
+recovery rendah
 
-Model menggunakan LSTM (Long Short-Term Memory) sebagai encoder utama untuk menangkap dependensi temporal pada data time series.
+readiness rendah
 
-Input Time Series
-        ↓
-   LSTM Encoder
-        ↓
- Shared Representation
-        ↓
- ┌─────────┬─────────┬─────────┬─────────┬─────────┐
- | Sleep   | HRV     | RHR     | Recovery| Readiness|
- └─────────┴─────────┴─────────┴─────────┴─────────┘
+😵 Stress — Level Stress per Jam
 
-🔁 Strategi Transfer Learning
+Statistik Dataset
 
-Pretraining
+Min: -15
 
-Dataset: Fitbit
+Median: 6.47
 
-Tujuan: mempelajari representasi fisiologis umum manusia
+Mean: 8.88
 
-Encoder disimpan sebagai model pretrained
+Q3: 15.34
 
-Fine-Tuning
+Max: 79.83
 
-Dataset: Smartwatch
+Digunakan dalam rumus:
 
-Encoder pretrained digunakan kembali
+recovery_score = 100 - stress * 5
 
-Model disesuaikan dengan distribusi data perangkat target
+| Kategori                  | Range    |
+|---------------------------|---------|
+| Rendah                    | ≤ 5     |
+| Normal                    | 5 – 15  |
+| Tinggi                    | 15 – 25 |
+| **Sangat Tinggi (Buruk)** | **> 25**|
 
-Pendekatan ini dikenal sebagai cross-device physiological representation learning.
 
-🧪 Training dan Evaluasi
+📉 Stress > 25 akan menurunkan recovery score ke < 0 (di-clip).
 
-Fungsi loss: Mean Squared Error (MSE)
+😴 Pola Konsisten Buruk (Hourly Time Series)
 
-Metrik evaluasi:
+Karena model berbasis LSTM, kondisi dianggap buruk secara konsisten jika:
 
-MAE (Mean Absolute Error)
+Definisi Pola Buruk
 
-RMSE (Root Mean Squared Error)
+Dalam 1 sequence (6 jam):
 
-Evaluasi dilakukan pada data uji yang dipisahkan secara temporal (tanpa shuffle).
+≥ 4 dari 6 jam memenuhi minimal 2 kondisi berikut:
 
-🚀 Contoh Penggunaan (Inference)
-```python
-sample = X_test[0].reshape(1, 6, 4)
-predictions = model.predict(sample)
+StepTotal < 5
+Calories  < 64
+heart_rate > 90
+stress > 25
 
-readiness_score = predictions[-1][0][0]
-print("Prediksi Readiness:", readiness_score)
-```
 
-📱 Penerapan di Aplikasi
+📌 Pola konsisten jauh lebih berpengaruh dibanding 1 jam buruk saja.
 
-Model ini dapat digunakan pada aplikasi berbasis wearable untuk:
+🧪 Contoh Data Dummy Buruk (Konsisten, Per Jam)
+dummy_bad = pd.DataFrame([
+    [2,  55,  95, 30],
+    [0,  52,  98, 35],
+    [3,  60, 100, 38],
+    [1,  58, 102, 40],
+    [4,  62, 105, 42],
+    [0,  50, 108, 45],
+], columns=["StepTotal", "Calories", "heart_rate", "stress"])
 
-Rekomendasi aktivitas harian
+🎯 Ekspektasi Output Model
 
-Monitoring kelelahan
+Untuk data dengan karakteristik di atas, model yang sehat diharapkan menghasilkan:
 
-Deteksi risiko overtraining
+sleep_score rendah
 
-Sistem pendukung keputusan kesehatan personal
+recovery_score sangat rendah
 
-⚠️ Keterbatasan Penelitian
+hrv_score rendah
 
-HRV bersifat estimasi (proxy)
+rhr_score rendah
 
-Data smartwatch memiliki noise
+readiness_score < 40
 
-Belum menggunakan multi-step forecasting
+✅ Catatan Penting
 
-Belum di-deploy ke perangkat edge
+Semua range berdasarkan distribusi dataset asli
 
-🔮 Pengembangan Selanjutnya
+Dummy data tidak keluar dari domain data
 
-Menggunakan RR-interval untuk HRV
-
-Prediksi multi-step (future forecasting)
-
-Deployment ke aplikasi mobile
-
-Edge AI untuk wearable device
-
-🧑‍💻 Penulis
-
-Mario Klau
-Bidang: Machine Learning, Deeo Learning, & Wearable Health Analytics
-
-📄 Lisensi
-
-Proyek ini dikembangkan untuk keperluan akademik dan penelitian.
-
-✅ Status Proyek
-
-✔ Model final telah dilatih
-✔ Arsitektur valid secara ilmiah
-✔ Siap untuk GitHub
+Konsistensi skala wajib dijaga antara training & inference
