@@ -14,7 +14,7 @@ FEATURES = ["StepTotal", "Calories", "heart_rate", "stress"]
 
 Range di bawah ini diambil dari statistik dataset asli, bukan perkiraan.
 
-🚶 StepTotal — Langkah per Jam
+##🚶 StepTotal — Langkah per Jam
 
 Statistik Dataset
 
@@ -36,7 +36,7 @@ Max: 5890
 | **Sangat Rendah (Buruk)** | **< 5**            |
 
 
-📉 StepTotal < 5/jam sering terjadi saat:
+##📉 StepTotal < 5/jam sering terjadi saat:
 
 duduk lama
 
@@ -44,7 +44,7 @@ kelelahan
 
 jam tidur atau pasif ekstrem
 
-🔥 Calories — Kalori Terbakar per Jam
+##🔥 Calories — Kalori Terbakar per Jam
 
 Statistik Dataset
 
@@ -68,7 +68,7 @@ Max: 612
 
 📉 Kalori < 64/jam menunjukkan aktivitas fisik hampir nol.
 
-❤️ Heart Rate — Denyut Jantung (bpm)
+##❤️ Heart Rate — Denyut Jantung (bpm)
 
 Statistik Dataset
 
