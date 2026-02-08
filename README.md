@@ -36,7 +36,7 @@ Max: 5890
 | **Sangat Rendah (Buruk)** | **< 5**            |
 
 
-## 📉 StepTotal < 5/jam sering terjadi saat:
+📉 StepTotal < 5/jam sering terjadi saat:
 
 duduk lama
 
